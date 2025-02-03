@@ -1,7 +1,6 @@
-import { RouterOutlet } from '@angular/router';
+import { Component, effect, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Component, effect, signal } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AddWorkoutComponent } from './components/add-workout/add-workout.component';
 import { UserServiceService } from './user-service.service';
@@ -19,14 +18,8 @@ interface UserWorkout {
 
 @Component({
   selector: 'app-root',
-  imports: [
-   
-        FormsModule,
-        // MatSlideToggleModule,
-        CommonModule,
-        // MatDialogModule,
-        // AddWorkoutComponent
-      ],
+  standalone: true,
+  imports: [FormsModule, CommonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
@@ -35,29 +28,33 @@ export class AppComponent {
 
   title = 'my-project';
   users = signal<UserWorkout[]>([]);
-  UserSearch = ''; // Search query
+  UserSearch = '';
+  selectedWorkoutType: string = 'All';
   currentPage = 1;
   itemsPerPage = 5;
 
-  ngOnInit() {
-    // Load users from UserService
-    this.users.set(this.userService.users);
+  
+  usersEffect = effect(() => {
+    console.log('Users updated:', this.users());
+    this.currentPage = 1; 
+  });
 
-    // Effect to log changes
-    effect(() => {
-      console.log('Users updated:', this.users());
-      this.currentPage = 1; // Reset pagination when users change
+  ngOnInit() {
+    this.users.set(this.userService.users);
+  }
+
+  get filteredUsers() {
+    return this.users().filter(user => {
+      const matchesSearch = user.name.toLowerCase().includes(this.UserSearch.toLowerCase());
+      const matchesWorkout =
+        this.selectedWorkoutType === 'All' || 
+        this.selectedWorkoutType === '' || 
+        user.workouts.some(workout => workout.type === this.selectedWorkoutType);
+
+      return matchesSearch && matchesWorkout;
     });
   }
 
-  /** 🔍 Filter users based on search query */
-  get filteredUsers() {
-    return this.users().filter(user =>
-      user.name.toLowerCase().includes(this.UserSearch.toLowerCase())
-    );
-  }
-
-  /** 📌 Get paginated and filtered users */
   get paginatedTodos() {
     const start = (this.currentPage - 1) * this.itemsPerPage;
     return this.filteredUsers.slice(start, start + this.itemsPerPage);

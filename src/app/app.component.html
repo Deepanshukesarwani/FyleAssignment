@@ -1,19 +1,22 @@
-<!-- 
- <div>
-  
- </div>
 <div class="p-4">
   <div class="flex justify-between mb-4">
     <button (click)="openAddUserModal()" class="bg-blue-500 text-white px-4 py-2 mr-4 rounded">
       Add User
     </button>
-    <input type="text" placeholder="Search" [(ngModel)]="UserSearch" class="p-2 border rounded-md w-1/3" />
-    {{UserSearch}}
-    <select [(ngModel)]="itemsPerPage"  class="p-2 border rounded-md">
-      <option [value]="5">5</option>
-      <option [value]="10">10</option>
-      <option [value]="15">15</option>
-    </select>
+
+
+    <input type="text" placeholder="Search by name" [(ngModel)]="UserSearch" class="p-2 border rounded-md w-1/3" />
+
+    <div>
+      <label class="block text-sm font-medium">Workout Type</label>
+      <select [(ngModel)]="selectedWorkoutType" class="border p-2 rounded">
+        <option value="All">All</option>
+        <option value="Running">Running</option>
+        <option value="Cycling">Cycling</option>
+        <option value="Swimming">Swimming</option>
+        <option value="Gym">Gym</option>
+      </select>
+    </div>
   </div>
 
   <table class="w-full border-collapse border border-gray-300">
@@ -28,7 +31,6 @@
     <tbody>
       <tr *ngFor="let todo of paginatedTodos" class="text-center">
         <td class="border p-2">{{ todo.name }}</td>
-       
         <td class="border p-2">{{ getWorkoutTypes(todo.workouts) }}</td>
         <td class="border p-2">{{ getTotalMinutes(todo.workouts) }}</td>
         <td class="border p-2">
@@ -39,66 +41,18 @@
     </tbody>
   </table>
 
-
   <div class="flex justify-between mt-4">
     <button (click)="prevPage()" [disabled]="currentPage === 1" class="px-3 py-1 border rounded">
       « Previous
     </button>
     <span>Page {{ currentPage }} of {{ totalPages }}</span>
-    <button (click)="nextPage()" [disabled]="currentPage >= totalPages" class="px-3 py-1 border rounded">
-      Next »
-    </button>
-  </div>
-</div>  -->
-
-
-<div class="p-4">
-  <div class="flex justify-between mb-4">
-    <button (click)="openAddUserModal()" class="bg-blue-500 text-white px-4 py-2 mr-4 rounded">
-      Add User
-    </button>
-
-    <!-- 🔍 Search Input -->
-    <input type="text" placeholder="Search by name" [(ngModel)]="UserSearch" class="p-2 border rounded-md w-1/3" />
-
     <select [(ngModel)]="itemsPerPage" class="p-2 border rounded-md">
       <option [value]="5">5</option>
       <option [value]="10">10</option>
       <option [value]="15">15</option>
     </select>
-  </div>
-
-  <table class="w-full border-collapse border border-gray-300">
-    <thead>
-      <tr class="bg-gray-200">
-        <th class="border p-2">Name</th>
-        <th class="border p-2">Workouts</th>
-        <th class="border p-2">Total Workout Minutes</th>
-        <th class="border p-2">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let todo of paginatedTodos" class="text-center">
-        <td class="border p-2">{{ todo.name }}</td>
-        <td class="border p-2">{{ getWorkoutTypes(todo.workouts) }}</td>
-        <td class="border p-2">{{ getTotalMinutes(todo.workouts) }}</td>
-        <td class="border p-2">
-          <button (click)="updateItem(todo.id)" class="bg-blue-500 text-white px-3 py-1 rounded mr-2">Update</button>
-          <button (click)="deleteItem(todo.id)" class="bg-red-500 text-white px-3 py-1 rounded">Delete</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
-  <!-- Pagination Controls -->
-  <div class="flex justify-between mt-4">
-    <button (click)="prevPage()" [disabled]="currentPage === 1" class="px-3 py-1 border rounded">
-      « Previous
-    </button>
-    <span>Page {{ currentPage }} of {{ totalPages }}</span>
     <button (click)="nextPage()" [disabled]="currentPage >= totalPages" class="px-3 py-1 border rounded">
       Next »
     </button>
   </div>
 </div>
-

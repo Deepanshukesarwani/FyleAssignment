@@ -20,15 +20,15 @@ import { UserServiceService } from '../../user-service.service';
 export class AddWorkoutComponent {
   private fb = inject(FormBuilder); 
   public dialogRef = inject(MatDialogRef<AddWorkoutComponent>);
-  private userService = inject(UserServiceService); // ✅ Injected correctly
+  private userService = inject(UserServiceService);
 
-  /** ✅ Get the next available ID dynamically */
+
   private nextUserId = this.userService.getNextId();
 
   userForm: FormGroup = this.fb.group({
-    id: [this.nextUserId], // ✅ ID is dynamically assigned
+    id: [this.nextUserId], 
     name: ['', Validators.required],
-    workouts: this.fb.array([this.createWorkoutGroup()]), // ✅ Correct initialization
+    workouts: this.fb.array([this.createWorkoutGroup()]), 
   });
 
   get workouts(): FormArray {
@@ -56,8 +56,8 @@ export class AddWorkoutComponent {
   submitForm(): void {
     if (this.userForm.valid) {
       const newUser = this.userForm.value;
-      this.userService.addUser(newUser); // ✅ Add new user to UserService
-      this.dialogRef.close(newUser); // ✅ Close dialog with new user data
+      this.userService.addUser(newUser); 
+      this.dialogRef.close(newUser); 
     }
 
     console.log("updated Service",this.userService);
