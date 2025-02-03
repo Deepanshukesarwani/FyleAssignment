@@ -44,7 +44,6 @@ export class AddWorkoutComponent {
 
   addWorkout(): void {
     this.workouts.push(this.createWorkoutGroup());
-    
   }
 
   removeWorkout(index: number): void {
