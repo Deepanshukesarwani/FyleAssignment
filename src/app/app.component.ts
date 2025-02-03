@@ -125,6 +125,14 @@ export class AppComponent {
       minWidth: '80vw',
       minHeight: '50vh',
     });
+
+    dialogRef.afterClosed().subscribe(() => {
+      console.log('Modal closed. Destroying chart...');
+      const chartComponent = dialogRef.componentInstance as ChartsComponent;
+      if (chartComponent && chartComponent.destroyChart) {
+        chartComponent.destroyChart();
+      }
+    });
   }
 }
 
