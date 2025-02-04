@@ -44,7 +44,10 @@ To test service use command
 ```bash
 ng test --include=src/app/user-service.service.spec.ts
 ```
-
+To test App-component use command
+```
+ng test --include=src/app/app.component.spec.ts
+```
 ## Running end-to-end tests
 
 For end-to-end (e2e) testing, run:
