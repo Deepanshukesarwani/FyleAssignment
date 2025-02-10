@@ -6,7 +6,6 @@ import { AddWorkoutComponent } from './components/add-workout/add-workout.compon
 import { UserServiceService } from './user-service.service';
 import { ChartsComponent } from './components/charts/charts.component';
 import { ActivatedRoute, Router } from '@angular/router';
-// import { merge } from 'rxjs';
 interface Workout {
   type: string;
   minutes: number;
@@ -84,12 +83,32 @@ export class AppComponent {
   }
 
   updateItem(id: number) {
-    // here i want to open the modal with the user data to edit it  and save it in the local storage 
-    
     console.log('Update item clicked with id:', id);
-
-    this.openAddUserModal();
+  
+    const userToEdit = this.users().find(user => user.id === id);
+    if (!userToEdit) return;
+  
+    const dialogRef = this.dialog.open(AddWorkoutComponent, {
+      width: '500px',
+      data: { ...userToEdit }, // Pass user data to modal
+    });
+  
+    dialogRef.afterClosed().subscribe((updatedUser) => {
+      if (updatedUser) {
+        console.log('Updated User Data:', updatedUser);
+        
+        // Update the user in the users array
+        this.users.set(this.users().map(user => 
+          user.id === id ? { ...user, ...updatedUser } : user
+        ));
+  
+        // Save updated users to local storage
+        this.userService.users = this.users();
+        this.userService.saveUsersToStorage();
+      }
+    });
   }
+  
 
   deleteItem(id: number) {
     this.userService.users = this.userService.users.filter(
