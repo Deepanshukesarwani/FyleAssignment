@@ -92,6 +92,7 @@ export class ChartsComponent implements OnInit {
             backgroundColor: 'rgba(54, 162, 235, 0.5)',
             borderColor: 'rgba(54, 162, 235, 1)',
             borderWidth: 1,
+            
           },
         ],
       },
@@ -101,7 +102,11 @@ export class ChartsComponent implements OnInit {
         scales: {
           y: {
             beginAtZero: true,
+            grid: {
+              offset: true,
+            },
           },
+          
         },
       },
     });

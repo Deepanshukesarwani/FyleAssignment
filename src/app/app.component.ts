@@ -6,7 +6,7 @@ import { AddWorkoutComponent } from './components/add-workout/add-workout.compon
 import { UserServiceService } from './user-service.service';
 import { ChartsComponent } from './components/charts/charts.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { merge } from 'rxjs';
+// import { merge } from 'rxjs';
 interface Workout {
   type: string;
   minutes: number;
@@ -84,7 +84,11 @@ export class AppComponent {
   }
 
   updateItem(id: number) {
-    alert(`Update Item with ID: ${id}`);
+    // here i want to open the modal with the user data to edit it  and save it in the local storage 
+    
+    console.log('Update item clicked with id:', id);
+
+    this.openAddUserModal();
   }
 
   deleteItem(id: number) {
